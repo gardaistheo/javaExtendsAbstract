@@ -6,6 +6,8 @@
 package projetsport;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Set;
 
 /**
  *
@@ -23,6 +25,26 @@ public class ProjetSport {
             totSal += unAdhe.salaire();
         }
         return totSal/ensAdhs.size();
+    }
+    public static ArrayList <Adherent>genererAdherentsSupMoyenne(ArrayList <Adherent> ensAdhs){
+        ArrayList <Adherent> collAdhersSupMoyenne = new ArrayList();
+        for(Adherent unAdher : ensAdhs){
+            if(unAdher.salaire()>moySal(ensAdhs)){
+                collAdhersSupMoyenne.add(unAdher);
+            }
+        }
+        return collAdhersSupMoyenne;
+    }
+    public static HashMap <String, Integer>infosAdresseAdherent(ArrayList <Adherent> ensAdhs){
+        HashMap<String, Integer> dicVilleAde = new HashMap();
+        for(Adherent unAde : ensAdhs){
+            if(dicVilleAde.containsKey(unAde.getAdresse())){
+                dicVilleAde.replace(unAde.getAdresse(), dicVilleAde.get(unAde.getAdresse())+1);
+            }
+            else
+                dicVilleAde.put(unAde.getAdresse(), 1);
+        }
+        return dicVilleAde;
     }
     public static void main(String[] args) {
         /*
@@ -67,9 +89,22 @@ for (Adherent unAdherent : collAdhers)
  // unAdherent est un objet Adherent
  System.out.println(unAdherent.salaire());
  }
-        System.out.println("La moyenne des salaires des adhérents est de :"+moySal(collAdhers));
 
-        
+System.out.println("La moyenne des salaires des adhérents est de :"+moySal(collAdhers));
+
+ArrayList <Adherent> collAdherentsSupMoyenne = new ArrayList();
+collAdherentsSupMoyenne=genererAdherentsSupMoyenne(collAdhers);
+for(Adherent unAde : collAdherentsSupMoyenne){
+    System.out.println("Nom : "+unAde.getNom()+" , Prénom : "+unAde.getPrenom()+" , Salaire : "+unAde.salaire());
+}
+
+HashMap<String, Integer> dicVilleAde = new HashMap();
+dicVilleAde = infosAdresseAdherent(collAdhers);
+Set<String> setVilleAde = dicVilleAde.keySet();
+for(String uneCle : setVilleAde){
+    System.out.println("Ville : "+uneCle);
+    System.out.println("Nombre adherents :"+dicVilleAde.get(uneCle));
+}
         
         
     }
